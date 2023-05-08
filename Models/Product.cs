@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.SqlServer;
 
 namespace SupermarketWEB.Models
 {
@@ -6,7 +8,8 @@ namespace SupermarketWEB.Models
 	{
 		//[Key] -> Anotacion si la propiedad no se llama Id, ejemplo ProductId
 		public int Id { get; set; } //sera la llave primaria
-		public string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
 
 		[Column(TypeName = "decimal(6,2)")]
 		public decimal Price { get; set; }
