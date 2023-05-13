@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
+using System.Threading.Tasks;
 
-namespace SupermarketWEB.Pages.Products
+namespace SupermarketWEB.Pages.Sales
 {
     public class EditModel : PageModel
     {
@@ -17,9 +18,9 @@ namespace SupermarketWEB.Pages.Products
         }
 
         [BindProperty]
-        public Product Product { get; set; }
+        public Sale Sale { get; set; } = default!;
 
-        public SelectList CategoryList { get; set; }
+        public List<SelectListItem> ProductList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,17 +29,23 @@ namespace SupermarketWEB.Pages.Products
                 return NotFound();
             }
 
-            Product = await _context.Products
-                .Include(p => p.Category)
+            Sale = await _context.Sales
+                .Include(s => s.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Product == null)
+            if (Sale == null)
             {
                 return NotFound();
             }
 
-            
-            CategoryList = new SelectList(_context.Categories, "Id", "Name", Product.CategoryId);
+            // Rellenar la lista de productos
+            ProductList = await _context.Products
+                .Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Name
+                })
+                .ToListAsync();
 
             return Page();
         }
@@ -47,12 +54,10 @@ namespace SupermarketWEB.Pages.Products
         {
             if (!ModelState.IsValid)
             {
-                
-                CategoryList = new SelectList(_context.Categories, "Id", "Name", Product.CategoryId);
-                
+                return Page();
             }
 
-            _context.Attach(Product).State = EntityState.Modified;
+            _context.Attach(Sale).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +65,7 @@ namespace SupermarketWEB.Pages.Products
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(Product.Id))
+                if (!SaleExists(Sale.Id))
                 {
                     return NotFound();
                 }
@@ -73,9 +78,11 @@ namespace SupermarketWEB.Pages.Products
             return RedirectToPage("./Index");
         }
 
-        private bool ProductExists(int id)
+        private bool SaleExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Sales.Any(e => e.Id == id);
         }
     }
 }
+
+

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\sneyd\\source\\repos\\SupermarketWEB\\wwwroot\\img\\Super.jpg",
+      "PackagePath": "staticwebassets\\img\\Super.jpg"
+    },
+    {
       "Id": "C:\\Users\\sneyd\\source\\repos\\SupermarketWEB\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

@@ -44,15 +44,31 @@ namespace SupermarketWEB.Pages.Products
                 return NotFound();
             }
 
-            Product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (Product != null)
+            if (product == null)
             {
-                _context.Products.Remove(Product);
-                await _context.SaveChangesAsync();
+                return NotFound();
+            }
+            if (_context.Entry(product).State == EntityState.Detached)
+            {
+                _context.Attach(product);
             }
 
+            _context.Products.Remove(product);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+            }
+            
             return RedirectToPage("./Index");
         }
+
+    
     }
 }
+

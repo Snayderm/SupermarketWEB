@@ -38,7 +38,7 @@ namespace SupermarketWEB.Pages.Sales
             {
                 ProductList = await _context.Products.ToListAsync(); // Se agrega esta línea para cargar la lista de productos
                 ViewData["ProductId"] = new SelectList(ProductList, "Id", "Name");
-               
+
             }
 
             _context.Sales.Add(Sale);
@@ -47,4 +47,7 @@ namespace SupermarketWEB.Pages.Sales
             return RedirectToPage("./Index");
         }
     }
+
+
 }
+

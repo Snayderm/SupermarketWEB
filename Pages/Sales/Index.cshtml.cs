@@ -41,6 +41,10 @@ namespace SupermarketWEB.Pages.Sales
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+
+
         }
+      
+
     }
 }
