@@ -1,10 +1,11 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
-using System.Threading.Tasks;
 
 namespace SupermarketWEB.Pages.Sales
 {
@@ -18,9 +19,9 @@ namespace SupermarketWEB.Pages.Sales
         }
 
         [BindProperty]
-        public Sale Sale { get; set; } = default!;
+        public Sale Sale { get; set; }
 
-        public List<SelectListItem> ProductList { get; set; }
+        public SelectList ProductList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,33 +30,21 @@ namespace SupermarketWEB.Pages.Sales
                 return NotFound();
             }
 
-            Sale = await _context.Sales
-                .Include(s => s.Product)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Sale = await _context.Sales.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Sale == null)
             {
                 return NotFound();
             }
 
-            // Rellenar la lista de productos
-            ProductList = await _context.Products
-                .Select(p => new SelectListItem
-                {
-                    Value = p.Id.ToString(),
-                    Text = p.Name
-                })
-                .ToListAsync();
+            ProductList = new SelectList(await _context.Products.ToListAsync(), "Id", "Name");
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            
 
             _context.Attach(Sale).State = EntityState.Modified;
 
@@ -84,5 +73,3 @@ namespace SupermarketWEB.Pages.Sales
         }
     }
 }
-
-
