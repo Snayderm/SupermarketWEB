@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,8 @@ using SupermarketWEB.Models;
 
 namespace SupermarketWEB.Pages.Sales
 {
-    public class DeleteModel : PageModel
+	[Authorize]
+	public class DeleteModel : PageModel
     {
         private readonly SupermarketContext _context;
 

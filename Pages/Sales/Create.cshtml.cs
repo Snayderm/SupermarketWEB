@@ -6,11 +6,13 @@ using SupermarketWEB.Data;
 using SupermarketWEB.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace SupermarketWEB.Pages.Sales
 {
-    public class CreateModel : PageModel
+	[Authorize]
+	public class CreateModel : PageModel
     {
         private readonly SupermarketContext _context;
 

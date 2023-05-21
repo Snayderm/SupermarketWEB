@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Autenticacion.Model
+namespace SupermarketWEB.Model
 
 {
     public class User

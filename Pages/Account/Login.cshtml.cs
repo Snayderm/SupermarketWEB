@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Autenticacion.Model;
+using SupermarketWEB.Model;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 
-namespace Autenticacion.Pages.Account
+namespace SupermarketWEB.Pages.Account
 {
     public class LoginModel : PageModel
     {
